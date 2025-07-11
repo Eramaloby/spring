@@ -1,9 +1,11 @@
 :root {
   --navbar-bg-color: #ffffff;
+  --card-bg-color: #ffffff;
   --spring-green-color: #6db33f;
   --version-green-color: #8fdf82;
   --button-color: #111111;
   --projects-color: #eaf2f2;
+  --text-card-description: #555555;
 }
 
 html,
@@ -78,7 +80,7 @@ body {
   width: 24px;
   height: 2px;
   background-color: var(--button-color);
-  transition: all 0.3 ease;
+  transition: all 0.3s ease;
   margin-bottom: 5px;
 }
 
@@ -135,25 +137,29 @@ h1 {
 }
 
 .products-section {
-  padding: 10px;
+  padding: 60px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .product-card {
   background-color: var(--card-bg-color);
   border-radius: 8px;
   padding: 30px;
-  max-width: 665px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: 2px solid var(--projects-color);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  color: var(--text-white);
   min-height: 250px;
   box-sizing: border-box;
   cursor: pointer;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  margin-bottom: 25px;
 }
 
 .product-card:hover {
@@ -192,7 +198,6 @@ h1 {
   font-size: 1em;
   line-height: 1.7rem;
   color: var(--text-card-description);
-  flex-grow: 1;
   margin: 10px 0;
 }
 
@@ -201,7 +206,7 @@ h1 {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: auto;
+
   font-family: 'Open Sans', sans-serif;
   font-size: 0.8em;
   color: var(--text-card-description);
@@ -213,4 +218,50 @@ h1 {
   padding: 0px 8px;
   border-radius: 4px;
   font-weight: bold;
+}
+
+@media (max-width: 769px) {
+  .products-section {
+    padding: 40px 10px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .product-card {
+    width: calc(100% - 40px); /* */
+    margin: 0;
+  }
+}
+
+@media (min-width: 770px) and (max-width: 999px) {
+  .products-section {
+    padding: 60px 20px;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .product-card {
+    width: calc((100% - (2 * 10px)) / 3);
+    min-width: unset;
+    max-width: unset;
+    padding: 30px;
+    margin: 0;
+  }
+}
+
+@media (min-width: 1000px) {
+  .products-section {
+    gap: 20px;
+    padding: 60px 20px;
+    justify-content: center;
+  }
+
+  .product-card {
+    width: calc((100% - (2 * 20)) / 3);
+    min-width: unset;
+    max-width: 350px;
+    margin: 0;
+    padding: 30px;
+  }
 }
