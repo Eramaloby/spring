@@ -1,6 +1,7 @@
 :root {
-  --bg-color: #ffffff;
+  --navbar-bg-color: #ffffff;
   --spring-green-color: #6db33f;
+  --version-green-color: #8fdf82;
   --button-color: #111111;
   --projects-color: #eaf2f2;
 }
@@ -26,7 +27,7 @@ body {
   height: 52px;
   padding-left: 12px;
   display: flex;
-  background-color: var(--bg-color);
+  background-color: var(--navbar-bg-color);
   display: flex;
   align-items: stretch;
   justify-content: space-between;
@@ -55,7 +56,7 @@ body {
 }
 
 .logo .st3 {
-  fill: var(--bg-color);
+  fill: var(--navbar-bg-color);
 }
 
 .hamburger {
@@ -124,11 +125,92 @@ h1 {
 
 .release-calendar-button:hover {
   background-color: var(--button-color);
-  color: var(--bg-color);
+  color: var(--navbar-bg-color);
 }
 
 .green-bar {
   background: linear-gradient(45deg, #6db33f 26%, #80ea6e 89%);
   width: 100%;
   height: 6px;
+}
+
+.products-section {
+  padding: 10px;
+}
+
+.product-card {
+  background-color: var(--card-bg-color);
+  border-radius: 8px;
+  padding: 30px;
+  max-width: 665px;
+  border: 2px solid var(--projects-color);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  color: var(--text-white);
+  min-height: 250px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  margin-bottom: 25px;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.product-icon {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: normal;
+}
+
+.product-icon h3 {
+  font-weight: 500;
+}
+
+.product-icon img {
+  width: 48px;
+  height: 48px;
+  padding: 10px 0;
+}
+
+.product-title {
+  font-family: 'Metropolis', sans-serif;
+  font-size: 1.5em;
+  margin: 0;
+  color: var(--text-white);
+}
+
+.product-description {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1em;
+  line-height: 1.7rem;
+  color: var(--text-card-description);
+  flex-grow: 1;
+  margin: 10px 0;
+}
+
+.product-version {
+  line-height: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.8em;
+  color: var(--text-card-description);
+}
+
+.version-badge {
+  background-color: var(--version-green-color);
+  color: var(--text-white);
+  padding: 0px 8px;
+  border-radius: 4px;
+  font-weight: bold;
 }
