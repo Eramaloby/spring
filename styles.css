@@ -127,6 +127,15 @@ body {
   display: block;
 }
 
+.last-item {
+  margin-bottom: 24px;
+}
+
+.arrow-up-right-from-square {
+  margin-left: 5px;
+  width: 12px;
+}
+
 .dropdown-menu li a {
   padding: 8px 30px;
   color: var(--button-color);
