@@ -97,6 +97,7 @@ const appData = {
 function main() {
   showProducts(appData.projectsBlockContent);
   showContentNavigationMenu(appData.navbarContent);
+  showContentNavbar(appData.navbarContent);
 
   const searchInput = document.getElementById('searchInput');
 
@@ -142,7 +143,6 @@ function showProducts(data) {
       productsSection.appendChild(productCard);
     });
   } else {
-    console.log('nothing');
     const noDataP = document.createElement('p');
     noDataP.textContent = 'No projects matching search terms';
     productsSection.appendChild(noDataP);
@@ -193,8 +193,6 @@ function createProductIcon(name, src) {
   return productIcon;
 }
 
-showContentNavbar(appData.navbarContent);
-
 function showContentNavbar(data) {
   const navLinksList = document.getElementById('nav-links__list');
   if (data) {
@@ -219,9 +217,12 @@ function showContentNavbar(data) {
   }
 }
 
-function createDropdownToggle(label) {
+function createDropdownToggle(label, className = '') {
   const span = document.createElement('span');
   span.classList.add('dropdown-toggle');
+  if (className) {
+    span.classList.add(className);
+  }
 
   const arrow = createArrowDownSvg();
   span.textContent = label;
@@ -264,57 +265,57 @@ function createDropdownItem(strOrObj) {
 
 function showContentNavigationMenu(data) {
   const navigationMenuContainer = document.getElementById('nav-menu');
+
   if (navigationMenuContainer) {
-    const ulSections = document.createElement('ul');
-    ulSections.setAttribute('id', 'ul-sections');
-    ulSections.classList.add('nav-menu-section');
+    const ulSections = createUlSections('nav-menu-section');
+
     data.forEach((item) => {
-      const liSection = document.createElement('li');
-
-      liSection.classList.add('nav-links__item');
-      liSection.classList.add('has-dropdown');
-      liSection.classList.add('nav-links__item-nav-menu');
-      liSection.setAttribute('id', item.label);
-
-      const spanLabel = document.createElement('span');
-      spanLabel.classList.add('dropdown-toggle');
-      spanLabel.classList.add('span-nav-menu');
-      spanLabel.textContent = item.label;
-
-      const ulSectionContent = document.createElement('ul');
+      const navLinksItem = document.createElement('li');
+      navLinksItem.classList.add('nav-links__item');
+      navLinksItem.classList.add('nav-links__item-nav-menu');
+      navLinksItem.setAttribute('id', item.label);
 
       if (item.data) {
-        liSection.addEventListener('click', () =>
+        navLinksItem.classList.add('has-dropdown');
+
+        const dropdownToggleSpan = createDropdownToggle(
+          item.label,
+          'span-nav-menu'
+        );
+
+        const dropdownMenuUl = createDropdownMenu(
+          item.data,
+          'dropdown-nav-menu'
+        );
+
+        navLinksItem.addEventListener('click', () =>
           showSectionContent(item.label)
         );
-        spanLabel.appendChild(createArrowDownSvg('arrow-down-nav-menu'));
-        ulSectionContent.classList.add('dropdown-menu');
-        ulSectionContent.classList.add('dropdown-nav-menu');
-        item.data.forEach((i) => {
-          const li = document.createElement('li');
-          const a = document.createElement('a');
 
-          if (typeof i === 'object') {
-            if (i.isLast) {
-              li.classList.add('last-item');
-            }
-            a.setAttribute('href', '#');
-            a.textContent = i.name;
-          } else {
-            a.textContent = i;
-          }
-          li.appendChild(a);
-          ulSectionContent.appendChild(li);
-        });
+        navLinksItem.appendChild(dropdownToggleSpan);
+        navLinksItem.appendChild(dropdownMenuUl);
+      } else {
+        const simpleItemContent = document.createElement('span');
+        simpleItemContent.textContent = item.label;
+        simpleItemContent.classList.add('span-nav-menu');
+
+        navLinksItem.appendChild(simpleItemContent);
       }
 
-      liSection.appendChild(spanLabel);
-      liSection.appendChild(ulSectionContent);
-
-      ulSections.appendChild(liSection);
+      ulSections.appendChild(navLinksItem);
     });
+
     navigationMenuContainer.appendChild(ulSections);
   }
+}
+
+function createUlSections(className = '') {
+  const ulSections = document.createElement('ul');
+  ulSections.setAttribute('id', 'ul-sections');
+  if (className) {
+    ulSections.classList.add(className);
+  }
+  return ulSections;
 }
 
 function createArrowDownSvg(className = '') {
