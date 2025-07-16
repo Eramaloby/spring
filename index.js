@@ -94,9 +94,107 @@ const appData = {
   ],
 };
 
-const addContentToNavigationMenu = (data) => {
+function main() {
+  showProducts(appData.projectsBlockContent);
+  showContentNavigationMenu(appData.navbarContent);
+
+  const searchInput = document.getElementById('searchInput');
+
+  searchInput.addEventListener('input', () =>
+    performSearch(appData.projectsBlockContent)
+  );
+}
+
+main();
+
+function performSearch(projects) {
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  const filteredProducts = projects.filter((project) => {
+    const nameMatches = project.name.toLowerCase().includes(searchTerm);
+    const descriptionMatches = project.description
+      .toLowerCase()
+      .includes(searchTerm);
+    return nameMatches || descriptionMatches;
+  });
+  showProducts(filteredProducts);
+}
+
+function showProducts(data) {
+  const productsSection = document.getElementById('products-section');
+
+  productsSection.innerHTML = '';
+
+  if (data && data.length !== 0) {
+    data.forEach((item) => {
+      const productCard = document.createElement('div');
+      productCard.classList.add('product-card');
+      const productIcon = createProductIcon(item.name, item.src);
+      const productDescription = createProductDescription(item.description);
+      const productVersion = createProductVersion(
+        item.currentVersion,
+        item.versionsCount
+      );
+
+      productCard.appendChild(productIcon);
+      productCard.appendChild(productDescription);
+      productCard.appendChild(productVersion);
+
+      productsSection.appendChild(productCard);
+    });
+  } else {
+    console.log('nothing');
+    const noDataP = document.createElement('p');
+    noDataP.textContent = 'No projects matching search terms';
+    productsSection.appendChild(noDataP);
+  }
+}
+
+function createProductVersion(currentV, vCount) {
+  const productVersion = document.createElement('div');
+  productVersion.classList.add('product-version');
+
+  const versionBadge = document.createElement('span');
+  versionBadge.textContent = currentV;
+  versionBadge.classList.add('version-badge');
+
+  const versionsCount = document.createElement('span');
+  versionsCount.textContent = `+${vCount} versions`;
+  versionsCount.classList.add('versions-count');
+
+  productVersion.appendChild(versionBadge);
+  productVersion.appendChild(versionsCount);
+
+  return productVersion;
+}
+
+function createProductDescription(description) {
+  const p = document.createElement('p');
+  p.textContent = description;
+  p.classList.add('product-description');
+
+  return p;
+}
+
+function createProductIcon(name, src) {
+  const productIcon = document.createElement('div');
+  productIcon.classList.add('product-icon');
+
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = name;
+
+  const h3 = document.createElement('h3');
+  h3.textContent = name;
+  h3.classList.add('product-title');
+
+  productIcon.appendChild(img);
+  productIcon.appendChild(h3);
+
+  return productIcon;
+}
+
+function showContentNavigationMenu(data) {
   const navigationMenuContainer = document.getElementById('nav-menu');
-  console.log(navigationMenuContainer);
   if (navigationMenuContainer) {
     const ulSections = document.createElement('ul');
     ulSections.setAttribute('id', 'ul-sections');
@@ -148,9 +246,9 @@ const addContentToNavigationMenu = (data) => {
     });
     navigationMenuContainer.appendChild(ulSections);
   }
-};
+}
 
-const createArrowDownSvg = () => {
+function createArrowDownSvg() {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
   svg.setAttribute('class', 'arrow-down arrow-down-nav-menu');
@@ -171,9 +269,7 @@ const createArrowDownSvg = () => {
   svg.appendChild(polyline);
 
   return svg;
-};
-
-addContentToNavigationMenu(appData.navbarContent);
+}
 
 function showSectionContent(label) {
   const ulSections = document.getElementById('ul-sections');
@@ -185,12 +281,12 @@ function showSectionContent(label) {
   ul.classList.add('show');
 }
 
-const showNavigation = () => {
+function showNavigation() {
   const navigationMenu = document.getElementById('nav-menu');
   navigationMenu.classList.add('show');
-};
+}
 
-const closeNavigationMenu = () => {
+function closeNavigationMenu() {
   const navigationMenu = document.getElementById('nav-menu');
   navigationMenu.classList.remove('show');
-};
+}
