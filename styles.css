@@ -504,6 +504,10 @@ h1 {
     margin-right: 20px;
   }
 
+  .navigation-menu {
+    display: none;
+  }
+
   .has-dropdown:hover .dropdown-menu {
     display: block;
   }
