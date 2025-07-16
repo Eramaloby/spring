@@ -214,8 +214,7 @@ body {
 }
 
 .navigation-menu {
-  overflow-y: scroll;
-  display: none;
+  overflow-y: auto;
   position: fixed;
   top: 0;
   left: 0;
@@ -224,6 +223,19 @@ body {
   z-index: 1000;
   background-color: var(--nav-menu-color);
   color: var(--text-white);
+
+  transform: translateY(-100%);
+  opacity: 0;
+  visibility: hidden;
+
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out, visibility 0s 0.5s;
+}
+
+.navigation-menu.open {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out, visibility 0s 0s;
 }
 
 .nav-menu-section {

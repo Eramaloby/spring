@@ -273,20 +273,29 @@ function createArrowDownSvg() {
 
 function showSectionContent(label) {
   const ulSections = document.getElementById('ul-sections');
-  for (const i of ulSections.children) {
-    i.children[1].classList.remove('show');
-  }
   const item = document.getElementById(label);
-  const ul = item.children[1];
-  ul.classList.add('show');
+  const targetUl = item.children[1];
+
+  const isAlreadyOpen = targetUl.classList.contains('show');
+
+  for (const child of ulSections.children) {
+    const dropdownContent = child.children[1];
+    if (dropdownContent && dropdownContent.classList.contains('show')) {
+      dropdownContent.classList.remove('show');
+    }
+  }
+
+  if (!isAlreadyOpen) {
+    targetUl.classList.add('show');
+  }
 }
 
 function showNavigation() {
   const navigationMenu = document.getElementById('nav-menu');
-  navigationMenu.classList.add('show');
+  navigationMenu.classList.add('open');
 }
 
 function closeNavigationMenu() {
   const navigationMenu = document.getElementById('nav-menu');
-  navigationMenu.classList.remove('show');
+  navigationMenu.classList.remove('open');
 }
