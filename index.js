@@ -99,11 +99,14 @@ function main() {
   showContentNavigationMenu(appData.navbarContent);
   showContentNavbar(appData.navbarContent);
 
-  const searchInput = document.getElementById('searchInput');
+  let debounceTimer;
+  searchInput.addEventListener('input', () => {
+    clearTimeout(debounceTimer);
 
-  searchInput.addEventListener('input', () =>
-    performSearch(appData.projectsBlockContent)
-  );
+    debounceTimer = setTimeout(() => {
+      performSearch(appData.projectsBlockContent);
+    }, 300);
+  });
 }
 
 main();
