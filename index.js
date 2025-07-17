@@ -65,11 +65,11 @@ const appData = {
       ],
     },
     {
-      label: 'Learn Content',
+      label: 'Learn',
       data: ['Overview', 'Quickstart', 'Guides', 'Blog', 'Security Advisors'],
     },
     {
-      label: 'Projects Content',
+      label: 'Projects',
       data: [
         'Overview',
         'Spring Boot',
@@ -83,7 +83,7 @@ const appData = {
         { name: 'Spring AI', isLast: true },
         'Release Calendar',
         { name: 'Security advisories', isLast: true },
-        { name: 'DEVELOPMENT TOOLS' },
+        { name: 'DEVELOPMENT TOOLS', isHeader: true },
         'Spring Tools',
         'Spring Initializr',
       ],
@@ -234,6 +234,22 @@ function createDropdownToggle(label, className = '') {
   return span;
 }
 
+function createDropdownToggleNavigationMenu(label, className = '') {
+  const span = document.createElement('span');
+  span.classList.add('dropdown-toggle');
+  if (className) {
+    span.classList.add(className);
+  }
+
+  console.log(label);
+  const arrow = createArrowDownSvg('arrow-down-nav-menu');
+  console.log(arrow);
+  span.textContent = label;
+  span.appendChild(arrow);
+
+  return span;
+}
+
 function createDropdownMenu(data, className = '') {
   const dropdownMenu = document.createElement('ul');
   dropdownMenu.classList.add('dropdown-menu');
@@ -250,19 +266,31 @@ function createDropdownMenu(data, className = '') {
 
 function createDropdownItem(strOrObj) {
   const item = document.createElement('li');
-  const link = document.createElement('a');
 
-  if (typeof strOrObj === 'object') {
+  const isLink =
+    typeof strOrObj === 'string' ||
+    (typeof strOrObj === 'object' && !strOrObj.isHeader);
+
+  let contentElement;
+
+  if (isLink) {
+    contentElement = document.createElement('a');
+    contentElement.setAttribute('href', '#');
+  } else {
+    contentElement = document.createElement('span');
+    contentElement.classList.add('subsection-header');
+  }
+
+  if (typeof strOrObj === 'object' && strOrObj !== null) {
     if (strOrObj.isLast) {
       item.classList.add('last-item');
     }
-    link.setAttribute('href', '#');
-    link.textContent = strOrObj.name;
+    contentElement.textContent = strOrObj.name;
   } else {
-    link.textContent = strOrObj;
+    contentElement.textContent = strOrObj;
   }
-  item.appendChild(link);
 
+  item.appendChild(contentElement);
   return item;
 }
 
@@ -281,7 +309,7 @@ function showContentNavigationMenu(data) {
       if (item.data) {
         navLinksItem.classList.add('has-dropdown');
 
-        const dropdownToggleSpan = createDropdownToggle(
+        const dropdownToggleSpan = createDropdownToggleNavigationMenu(
           item.label,
           'span-nav-menu'
         );
@@ -327,10 +355,10 @@ function createArrowDownSvg(className = '') {
   if (className !== '') {
     svg.setAttribute('class', `arrow-down ${className}`);
   } else {
+    console.log('in else', `afa${className}`);
     svg.setAttribute('class', 'arrow-down');
   }
-  svg.setAttribute('class', 'arrow-down arrow-down-nav-menu');
-  svg.setAttribute('class', 'arrow-down');
+
   svg.setAttribute('viewBox', '0 0 24 24');
   svg.setAttribute('fill', 'none');
   svg.setAttribute('stroke', 'currentColor');
@@ -353,9 +381,13 @@ function createArrowDownSvg(className = '') {
 function showSectionContent(label) {
   const ulSections = document.getElementById('ul-sections');
   const item = document.getElementById(label);
+
+  const arrow = item.children[0].children[0];
   const targetUl = item.children[1];
 
   const isAlreadyOpen = targetUl.classList.contains('show');
+
+  arrow.classList.remove('upside-down');
 
   for (const child of ulSections.children) {
     const dropdownContent = child.children[1];
@@ -365,6 +397,7 @@ function showSectionContent(label) {
   }
 
   if (!isAlreadyOpen) {
+    arrow.classList.add('upside-down');
     targetUl.classList.add('show');
   }
 }

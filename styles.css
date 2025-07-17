@@ -123,9 +123,14 @@ body {
 }
 
 .arrow-down-nav-menu {
+  transition: transform 0.3s ease;
   margin-left: auto;
   width: 30px;
   height: 30px;
+}
+
+.upside-down {
+  transform: rotate(180deg);
 }
 
 .dropdown-menu {
@@ -174,6 +179,19 @@ body {
   font-weight: 400;
   font-size: 1em;
   line-height: 1.5;
+}
+
+.subsection-header {
+  font-weight: 400;
+  font-size: 1em;
+  line-height: 1.5;
+  padding: 8px 30px;
+}
+
+.dropdown-nav-menu .subsection-header {
+  color: var(--nav-menu-dropdown-text);
+  font-size: 1.2rem;
+  padding: 0.2rem 0;
 }
 
 .dropdown-nav-menu li a {
